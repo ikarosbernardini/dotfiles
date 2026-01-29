@@ -1,0 +1,120 @@
+#!/bin/bash
+# chezmoi:template:left-delimiter="{{" right-delimiter="}}"
+# =============================================================================
+# Package Installation for Fedora Sway Atomic
+# This script runs ONCE before configs are applied
+# =============================================================================
+
+set -e
+
+echo "========================================"
+echo " Installing packages..."
+echo "========================================"
+
+# Check if we're on Fedora
+if [ ! -f /etc/fedora-release ]; then
+    echo "Not on Fedora, skipping package installation"
+    exit 0
+fi
+
+# =============================================================================
+# RPM-OSTREE packages
+# =============================================================================
+
+{{ if .install_packages }}
+if command -v rpm-ostree &>/dev/null; then
+    echo "Installing system packages via rpm-ostree..."
+
+    PACKAGES=(
+        tmux
+        neovim
+        git
+        curl
+        wget
+        ripgrep
+        fd-find
+        fzf
+        jq
+        htop
+        btop
+        light
+        grim
+        slurp
+        wl-clipboard
+        cliphist
+        playerctl
+        starship
+        fastfetch
+    )
+
+    # Check which packages need to be installed
+    TO_INSTALL=()
+    for pkg in "${PACKAGES[@]}"; do
+        if ! rpm -q "$pkg" &>/dev/null; then
+            TO_INSTALL+=("$pkg")
+        fi
+    done
+
+    if [ ${#TO_INSTALL[@]} -gt 0 ]; then
+        echo "Installing: ${TO_INSTALL[*]}"
+        sudo rpm-ostree install --idempotent "${TO_INSTALL[@]}" || true
+        echo ""
+        echo "NOTE: A reboot may be required for rpm-ostree packages"
+    else
+        echo "All system packages already installed"
+    fi
+fi
+{{ end }}
+
+# =============================================================================
+# Flatpak
+# =============================================================================
+
+{{ if .install_flatpaks }}
+if command -v flatpak &>/dev/null; then
+    echo "Setting up Flatpak..."
+
+    # Ensure Flathub is added
+    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo || true
+
+    FLATPAKS=(
+        com.github.tchx84.Flatseal
+    )
+
+    for app in "${FLATPAKS[@]}"; do
+        if ! flatpak list | grep -q "$app"; then
+            echo "Installing $app..."
+            flatpak install -y flathub "$app" || true
+        fi
+    done
+fi
+{{ end }}
+
+# =============================================================================
+# Create directories
+# =============================================================================
+
+echo "Creating directories..."
+mkdir -p ~/.local/bin
+mkdir -p ~/.config
+mkdir -p ~/Projects
+mkdir -p ~/Pictures/Screenshots
+
+# =============================================================================
+# Install Nerd Font
+# =============================================================================
+
+if ! fc-list | grep -qi "JetBrainsMono Nerd"; then
+    echo "Installing JetBrains Mono Nerd Font..."
+    mkdir -p ~/.local/share/fonts
+    FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip"
+    curl -fLo /tmp/JetBrainsMono.zip "$FONT_URL" 2>/dev/null || true
+    if [ -f /tmp/JetBrainsMono.zip ]; then
+        unzip -o /tmp/JetBrainsMono.zip -d ~/.local/share/fonts/JetBrainsMono/ 2>/dev/null || true
+        rm /tmp/JetBrainsMono.zip
+        fc-cache -f 2>/dev/null || true
+        echo "Font installed!"
+    fi
+fi
+
+echo "Package installation complete!"

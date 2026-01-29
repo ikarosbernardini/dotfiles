@@ -1,0 +1,62 @@
+/* Waybar - Tokyo Night Theme */
+
+* {
+    font-family: "JetBrainsMono Nerd Font", sans-serif;
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: rgba(26, 27, 38, 0.95);
+    border-bottom: 2px solid #414868;
+    color: #c0caf5;
+}
+
+tooltip {
+    background-color: #1a1b26;
+    border: 1px solid #414868;
+    border-radius: 8px;
+}
+
+#workspaces, #mode, #scratchpad, #window, #clock, #battery,
+#cpu, #memory, #temperature, #backlight, #network, #pulseaudio,
+#tray, #idle_inhibitor {
+    padding: 0 10px;
+    margin: 4px 2px;
+    border-radius: 6px;
+    background-color: #24283b;
+}
+
+#workspaces { background-color: transparent; padding: 0; margin: 4px 4px; }
+#workspaces button {
+    padding: 0 8px;
+    margin: 0 2px;
+    background-color: #24283b;
+    color: #565f89;
+    border-radius: 6px;
+}
+#workspaces button:hover { background-color: #414868; color: #c0caf5; }
+#workspaces button.focused { background-color: #7aa2f7; color: #1a1b26; }
+#workspaces button.urgent { background-color: #f7768e; color: #1a1b26; }
+
+#mode { background-color: #f7768e; color: #1a1b26; font-weight: bold; }
+#scratchpad { background-color: #bb9af7; color: #1a1b26; }
+#scratchpad.empty { background-color: transparent; }
+#window { background-color: transparent; color: #a9b1d6; font-weight: bold; }
+#clock { background-color: #7aa2f7; color: #1a1b26; font-weight: bold; }
+#battery { background-color: #9ece6a; color: #1a1b26; }
+#battery.warning:not(.charging) { background-color: #e0af68; color: #1a1b26; }
+#battery.critical:not(.charging) { background-color: #f7768e; color: #1a1b26; animation: blink 0.5s linear infinite alternate; }
+@keyframes blink { to { background-color: #ff9e64; } }
+#cpu { background-color: #7dcfff; color: #1a1b26; }
+#memory { background-color: #bb9af7; color: #1a1b26; }
+#temperature { background-color: #ff9e64; color: #1a1b26; }
+#temperature.critical { background-color: #f7768e; }
+#network { background-color: #73daca; color: #1a1b26; }
+#network.disconnected { background-color: #f7768e; }
+#pulseaudio { background-color: #e0af68; color: #1a1b26; }
+#pulseaudio.muted { background-color: #414868; color: #565f89; }
+#backlight { background-color: #e0af68; color: #1a1b26; }
+#idle_inhibitor { background-color: #414868; color: #565f89; }
+#idle_inhibitor.activated { background-color: #9ece6a; color: #1a1b26; }
+#tray { background-color: #24283b; }

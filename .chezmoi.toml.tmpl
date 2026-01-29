@@ -1,0 +1,22 @@
+{{- /* chezmoi configuration template */ -}}
+{{- $name := "Ikaros" -}}
+{{- $email := "ikaros.bernardini@gmail.com" -}}
+{{- $install_packages := true -}}
+{{- $install_flatpaks := true -}}
+
+{{- if stdinIsATTY -}}
+{{-   $name = promptStringOnce . "name" "Your name" "Ikaros" -}}
+{{-   $email = promptStringOnce . "email" "Your email" "ikaros.bernardini@gmail.com" -}}
+{{-   $install_packages = promptBoolOnce . "install_packages" "Install system packages via rpm-ostree" true -}}
+{{-   $install_flatpaks = promptBoolOnce . "install_flatpaks" "Install Flatpak applications" true -}}
+{{- end -}}
+
+[data]
+    name = {{ $name | quote }}
+    email = {{ $email | quote }}
+    install_packages = {{ $install_packages }}
+    install_flatpaks = {{ $install_flatpaks }}
+
+[git]
+    autoCommit = false
+    autoPush = false

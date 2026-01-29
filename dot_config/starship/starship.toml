@@ -1,0 +1,94 @@
+# Starship Prompt - Tokyo Night Theme
+
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$python\
+$nodejs\
+$rust\
+$golang\
+$docker_context\
+$kubernetes\
+$cmd_duration\
+$line_break\
+$character"""
+
+[username]
+show_always = true
+style_user = "fg:#7aa2f7 bold"
+style_root = "fg:#f7768e bold"
+format = '[$user]($style) '
+
+[hostname]
+ssh_only = true
+style = "fg:#7dcfff"
+format = '[@$hostname]($style) '
+
+[directory]
+style = "fg:#bb9af7 bold"
+format = "[$path]($style)[$read_only]($read_only_style) "
+truncation_length = 4
+truncate_to_repo = true
+read_only = " "
+read_only_style = "fg:#f7768e"
+
+[git_branch]
+symbol = " "
+style = "fg:#9ece6a"
+format = '[$symbol$branch]($style) '
+
+[git_status]
+style = "fg:#e0af68"
+format = '([$all_status$ahead_behind]($style) )'
+conflicted = "="
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+untracked = "?${count}"
+stashed = "*${count}"
+modified = "!${count}"
+staged = "+${count}"
+deleted = "✘${count}"
+
+[python]
+symbol = " "
+style = "fg:#e0af68"
+format = '[$symbol$version]($style) '
+
+[nodejs]
+symbol = " "
+style = "fg:#9ece6a"
+format = '[$symbol$version]($style) '
+
+[rust]
+symbol = " "
+style = "fg:#ff9e64"
+format = '[$symbol$version]($style) '
+
+[golang]
+symbol = " "
+style = "fg:#7dcfff"
+format = '[$symbol$version]($style) '
+
+[docker_context]
+symbol = " "
+style = "fg:#7aa2f7"
+format = '[$symbol$context]($style) '
+
+[kubernetes]
+symbol = "☸ "
+style = "fg:#7aa2f7"
+format = '[$symbol$context(\($namespace\))]($style) '
+disabled = false
+
+[cmd_duration]
+min_time = 2_000
+style = "fg:#565f89"
+format = '[$duration]($style) '
+
+[character]
+success_symbol = "[❯](fg:#9ece6a)"
+error_symbol = "[❯](fg:#f7768e)"

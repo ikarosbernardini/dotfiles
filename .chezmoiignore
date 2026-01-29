@@ -1,0 +1,30 @@
+# chezmoi ignore file
+# Files and directories to ignore when applying
+
+# Documentation (not config files)
+README.md
+KEYBINDINGS.md
+LICENSE
+
+# Git
+.git
+.gitignore
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Local/machine-specific files (if any)
+*.local
