@@ -1,0 +1,245 @@
+/* =============================================================================
+ * Waybar Style - Tokyo Night Theme
+ * Author: Ikaros
+ * ============================================================================= */
+
+/* Base styling */
+* {
+    font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free", sans-serif;
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: rgba(26, 27, 38, 0.95);
+    border-bottom: 2px solid #414868;
+    color: #c0caf5;
+    transition-property: background-color;
+    transition-duration: 0.5s;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+/* Tooltip styling */
+tooltip {
+    background-color: #1a1b26;
+    border: 1px solid #414868;
+    border-radius: 8px;
+}
+
+tooltip label {
+    color: #c0caf5;
+    padding: 4px;
+}
+
+/* General module styling */
+#workspaces,
+#mode,
+#scratchpad,
+#window,
+#clock,
+#battery,
+#cpu,
+#memory,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#tray,
+#idle_inhibitor {
+    padding: 0 10px;
+    margin: 4px 2px;
+    border-radius: 6px;
+    background-color: #24283b;
+}
+
+/* Workspaces */
+#workspaces {
+    background-color: transparent;
+    padding: 0;
+    margin: 4px 4px;
+}
+
+#workspaces button {
+    padding: 0 8px;
+    margin: 0 2px;
+    background-color: #24283b;
+    color: #565f89;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+#workspaces button:hover {
+    background-color: #414868;
+    color: #c0caf5;
+}
+
+#workspaces button.focused {
+    background-color: #7aa2f7;
+    color: #1a1b26;
+}
+
+#workspaces button.urgent {
+    background-color: #f7768e;
+    color: #1a1b26;
+}
+
+/* Mode indicator */
+#mode {
+    background-color: #f7768e;
+    color: #1a1b26;
+    font-weight: bold;
+}
+
+/* Scratchpad */
+#scratchpad {
+    background-color: #bb9af7;
+    color: #1a1b26;
+}
+
+#scratchpad.empty {
+    background-color: transparent;
+}
+
+/* Window title */
+#window {
+    background-color: transparent;
+    color: #a9b1d6;
+    font-weight: bold;
+}
+
+/* Clock */
+#clock {
+    background-color: #7aa2f7;
+    color: #1a1b26;
+    font-weight: bold;
+}
+
+/* Battery */
+#battery {
+    background-color: #9ece6a;
+    color: #1a1b26;
+}
+
+#battery.charging,
+#battery.plugged {
+    background-color: #9ece6a;
+    color: #1a1b26;
+}
+
+#battery.warning:not(.charging) {
+    background-color: #e0af68;
+    color: #1a1b26;
+}
+
+#battery.critical:not(.charging) {
+    background-color: #f7768e;
+    color: #1a1b26;
+    animation: blink 0.5s linear infinite alternate;
+}
+
+@keyframes blink {
+    to {
+        background-color: #ff9e64;
+        color: #1a1b26;
+    }
+}
+
+/* CPU */
+#cpu {
+    background-color: #7dcfff;
+    color: #1a1b26;
+}
+
+/* Memory */
+#memory {
+    background-color: #bb9af7;
+    color: #1a1b26;
+}
+
+/* Temperature */
+#temperature {
+    background-color: #ff9e64;
+    color: #1a1b26;
+}
+
+#temperature.critical {
+    background-color: #f7768e;
+}
+
+/* Network */
+#network {
+    background-color: #73daca;
+    color: #1a1b26;
+}
+
+#network.disconnected {
+    background-color: #f7768e;
+    color: #1a1b26;
+}
+
+/* Pulseaudio */
+#pulseaudio {
+    background-color: #e0af68;
+    color: #1a1b26;
+}
+
+#pulseaudio.muted {
+    background-color: #414868;
+    color: #565f89;
+}
+
+/* Backlight */
+#backlight {
+    background-color: #e0af68;
+    color: #1a1b26;
+}
+
+/* Idle inhibitor */
+#idle_inhibitor {
+    background-color: #414868;
+    color: #565f89;
+}
+
+#idle_inhibitor.activated {
+    background-color: #9ece6a;
+    color: #1a1b26;
+}
+
+/* Tray */
+#tray {
+    background-color: #24283b;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #f7768e;
+}
+
+/* Privacy */
+#privacy {
+    padding: 0;
+}
+
+#privacy-item {
+    padding: 0 5px;
+    color: white;
+}
+
+#privacy-item.screenshare {
+    background-color: #cf5700;
+}
+
+#privacy-item.audio-in {
+    background-color: #1ca000;
+}
+
+#privacy-item.audio-out {
+    background-color: #0069d4;
+}

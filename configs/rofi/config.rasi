@@ -1,0 +1,208 @@
+/* =============================================================================
+ * Rofi Configuration - Tokyo Night Theme
+ * Author: Ikaros
+ * ============================================================================= */
+
+configuration {
+    modes: "drun,run,window,ssh,filebrowser";
+    font: "JetBrainsMono Nerd Font 12";
+    show-icons: true;
+    icon-theme: "Papirus-Dark";
+    terminal: "foot";
+    ssh-client: "ssh";
+    ssh-command: "{terminal} -e {ssh-client} {host} [-p {port}]";
+    run-command: "{cmd}";
+    run-shell-command: "{terminal} -e {cmd}";
+
+    /* Matching */
+    matching: "fuzzy";
+    tokenize: true;
+    sort: true;
+    sorting-method: "fzf";
+    case-sensitive: false;
+
+    /* History and caching */
+    disable-history: false;
+    max-history-size: 25;
+    cache-dir: "~/.cache/rofi";
+
+    /* Display */
+    display-drun: " Apps";
+    display-run: " Run";
+    display-window: " Windows";
+    display-ssh: " SSH";
+    display-filebrowser: " Files";
+
+    /* Behavior */
+    click-to-exit: true;
+    scroll-method: 0;
+    hover-select: false;
+
+    /* DRun settings */
+    drun-display-format: "{name}";
+    drun-show-actions: false;
+    drun-url-launcher: "xdg-open";
+    drun-match-fields: "name,generic,exec,categories,keywords";
+
+    /* Window mode settings */
+    window-format: "{w} · {c} · {t}";
+    window-thumbnail: false;
+
+    /* File browser settings */
+    filebrowser {
+        directory: "/home";
+        directories-first: true;
+        sorting-method: "name";
+    }
+
+    /* Timeout settings */
+    timeout {
+        action: "kb-cancel";
+        delay: 0;
+    }
+}
+
+/* Tokyo Night Theme */
+* {
+    bg0:     #1a1b26;
+    bg1:     #24283b;
+    bg2:     #414868;
+    fg0:     #c0caf5;
+    fg1:     #a9b1d6;
+    fg2:     #565f89;
+    red:     #f7768e;
+    green:   #9ece6a;
+    yellow:  #e0af68;
+    blue:    #7aa2f7;
+    magenta: #bb9af7;
+    cyan:    #7dcfff;
+
+    accent:          @blue;
+    urgent:          @red;
+
+    background-color: transparent;
+    text-color:       @fg0;
+
+    margin:  0;
+    padding: 0;
+    spacing: 0;
+}
+
+window {
+    location:         center;
+    width:            600px;
+    border-radius:    12px;
+    background-color: @bg0;
+    border:           2px solid;
+    border-color:     @bg2;
+}
+
+mainbox {
+    padding:  12px;
+    spacing:  12px;
+}
+
+inputbar {
+    padding:          12px;
+    spacing:          12px;
+    children:         [ icon-search, entry ];
+    border-radius:    8px;
+    background-color: @bg1;
+}
+
+icon-search {
+    expand:   false;
+    filename: "search";
+    size:     24px;
+    vertical-align: 0.5;
+}
+
+entry {
+    placeholder:       "Search...";
+    placeholder-color: @fg2;
+}
+
+message {
+    border-radius:    8px;
+    background-color: @bg1;
+}
+
+textbox {
+    padding: 12px;
+}
+
+listview {
+    lines:        8;
+    columns:      1;
+    fixed-height: false;
+    scrollbar:    true;
+}
+
+scrollbar {
+    handle-width:  8px;
+    handle-color:  @bg2;
+    border-radius: 4px;
+}
+
+element {
+    padding:       12px;
+    spacing:       12px;
+    border-radius: 8px;
+}
+
+element normal normal {
+    text-color: @fg1;
+}
+
+element normal urgent {
+    text-color: @urgent;
+}
+
+element normal active {
+    text-color: @accent;
+}
+
+element selected normal,
+element selected active {
+    background-color: @accent;
+    text-color:       @bg0;
+}
+
+element selected urgent {
+    background-color: @urgent;
+    text-color:       @bg0;
+}
+
+element-icon {
+    size: 24px;
+    vertical-align: 0.5;
+}
+
+element-text {
+    text-color:     inherit;
+    vertical-align: 0.5;
+}
+
+/* Mode switcher */
+mode-switcher {
+    border-radius: 8px;
+    spacing:       8px;
+}
+
+button {
+    padding:       8px 16px;
+    border-radius: 6px;
+    text-color:    @fg2;
+}
+
+button selected {
+    background-color: @bg2;
+    text-color:       @fg0;
+}
+
+/* Error message styling */
+error-message {
+    padding:          12px;
+    border-radius:    8px;
+    background-color: @urgent;
+}
