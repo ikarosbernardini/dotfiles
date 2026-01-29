@@ -401,4 +401,4 @@ Complete keyboard shortcuts reference for the Fedora Sway Atomic dotfiles setup.
 
 ---
 
-*Last updated: 2024*
+*Last updated: 2026-01-29*
