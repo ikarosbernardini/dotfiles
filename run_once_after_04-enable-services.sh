@@ -16,15 +16,8 @@ if [ ! -f /etc/fedora-release ] || ! command -v systemctl &>/dev/null; then
     exit 0
 fi
 
-# Enable mbpfan (MacBook fan control)
-if rpm -q mbpfan &>/dev/null; then
-    if ! systemctl is-enabled mbpfan &>/dev/null; then
-        echo "Enabling mbpfan service..."
-        sudo systemctl enable --now mbpfan || true
-    else
-        echo "mbpfan already enabled"
-    fi
-fi
+# mbpfan (MacBook fan control) - disabled for testing
+# To enable manually: sudo systemctl enable --now mbpfan
 
 # Enable TLP (power management)
 if rpm -q tlp &>/dev/null; then
