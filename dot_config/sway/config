@@ -27,7 +27,7 @@ set $screenshot_area_clipboard grim -g "$(slurp)" - | wl-copy
 # Output & Input
 # =============================================================================
 
-output * bg /usr/share/backgrounds/default.png fill
+output * bg ~/.local/share/backgrounds/wallpaper.png fill
 
 input type:touchpad {
     tap enabled
@@ -36,7 +36,7 @@ input type:touchpad {
 }
 
 input type:keyboard {
-    xkb_layout us
+    xkb_layout se
     xkb_options caps:escape
     repeat_delay 300
     repeat_rate 50
@@ -186,8 +186,13 @@ bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
-bindsym XF86MonBrightnessUp exec light -A 5
-bindsym XF86MonBrightnessDown exec light -U 5
+# Screen brightness
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+
+# Keyboard backlight
+bindsym XF86KbdBrightnessUp exec brightnessctl -d smc::kbd_backlight set +10%
+bindsym XF86KbdBrightnessDown exec brightnessctl -d smc::kbd_backlight set 10%-
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
@@ -210,7 +215,6 @@ for_window [app_id=".*"] inhibit_idle fullscreen
 # Autostart
 # =============================================================================
 
-exec_always pkill waybar; waybar
 exec_always pkill dunst; dunst
 exec /usr/libexec/polkit-gnome-authentication-agent-1
 exec nm-applet --indicator

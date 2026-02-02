@@ -26,25 +26,40 @@ if command -v rpm-ostree &>/dev/null; then
     echo "Installing system packages via rpm-ostree..."
 
     PACKAGES=(
+        # Core tools
         tmux
         neovim
         git
         curl
         wget
+        npm
+
+        # Search & utilities
         ripgrep
         fd-find
         fzf
         jq
         htop
         btop
-        light
+
+        # MacBook hardware support
+        broadcom-wl
+        mbpfan
+        tlp
+        tlp-rdw
+
+        # Sway/Wayland utilities
+        brightnessctl
         grim
         slurp
         wl-clipboard
         cliphist
         playerctl
+
+        # Shell & appearance
         starship
         fastfetch
+        jxl-pixbuf-loader
     )
 
     # Check which packages need to be installed
