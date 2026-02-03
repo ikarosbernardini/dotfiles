@@ -1,0 +1,97 @@
+# prompt
+FMT_BOLD="\[\e[1m\]"
+FMT_DIM="\[\e[2m\]"
+FMT_RESET="\[\e[0m\]"
+FMT_UNBOLD="\[\e[22m\]"
+FMT_UNDIM="\[\e[22m\]"
+FG_BLACK="\[\e[30m\]"
+FG_BLUE="\[\e[34m\]"
+FG_CYAN="\[\e[36m\]"
+FG_GREEN="\[\e[32m\]"
+FG_GREY="\[\e[37m\]"
+FG_MAGENTA="\[\e[35m\]"
+FG_RED="\[\e[31m\]"
+FG_WHITE="\[\e[97m\]"
+FG_ORANGE="\[\e[34m\]"
+FG_YELLOW="\[\e[33m\]"
+FG_PURPLE="\[\e[35m\]"
+FG_LIGHT_GRAY="\[\e[37m\]"
+FG_DARK_GRAY="\[\e[90m\]"
+BG_YELLOW="\[\e[43m\]"
+BG_PURPLE="\[\e[45m\]"
+BG_LIGHT_GRAY="\[\e[47m\]"
+BG_ORANGE="\[\e[44m\]"
+BG_DARK_GRAY="\[\e[100m\]"
+BG_BLACK="\[\e[40m\]"
+BG_BLUE="\e[44m\]"
+BG_CYAN="\[\e[46m\]"
+BG_GREEN="\[\e[42m\]"
+BG_MAGENTA="\[\e[45m\]"
+BG_RED="\[\e[41m\]"
+FG_ICE_BLUE="\[\e[38;5;117m\]"   # Isblå
+FG_FROST="\[\e[38;5;159m\]"      # Frost cyan
+FG_SNOW_BLUE="\[\e[38;5;153m\]"  # Snöblå
+FG_WINTER_BLUE="\[\e[38;5;39m\]" # Vinterblå
+FG_DEEP_BLUE="\[\e[38;5;33m\]"   # Mörkare blå för bättre läsbarhet
+BG_LIGHT_GRAY="\[\e[47m\]"
+BG_ICE_BLUE="\[\e[48;5;117m\]"
+BG_FROST="\[\e[48;5;159m\]"
+BG_DEEP_BLUE="\[\e[48;5;33m\]"   # Mörkare blå bakgrund
+
+parse_git_bg() {
+        [[ $(git status -s 2> /dev/null) ]] && echo -e "\e[43m" || echo -e "\e[42m"
+}
+
+parse_git_fg() {
+        [[ $(git status -s 2> /dev/null) ]] && echo -e "\e[33m" || echo -e "\e[32m"
+}
+
+#openshift_info() {
+#    current_context=$(grep "current-context:" ~/.kube/config | awk '{print $2}' | tr -d '\n' | sed 's/"//g')
+#if  [  -n "$current_context" ]; then
+#    CLUSTER=$(cat ~/.kube/config 2>/dev/null| grep  '^current-context: [^/]*' | cut -d' ' -f2 |cut -d'/' -f2| cut -d':' -f1| sed 's/api-//')
+#    CONTEXT=$(cat ~/.kube/config 2>/dev/null| grep -o '^current-context: [^/]*' | cut -d' ' -f2)
+#    if [ -n "$CONTEXT" ]; then
+#        WHITE='\033[1;37m'
+ #       BG_GREEN='\033[42m'
+ #       NC='\033[0m' # No Color
+ #       echo -e "${WHITE}${BG_GREEN}  [${CLUSTER#*}:${CONTEXT}]"
+ #   fi
+#fi
+#}
+
+# Ta bort kommentarer ovanför om du vill visa OpenShift-info i prompten
+
+
+clock() {
+    date '+%H:%M:%S'
+}
+update_clock() {
+    clock=$(clock)
+}
+
+PROMPT_COMMAND='clock=$(date "+%H:%M:%S")'
+PS1="\n${FG_ICE_BLUE}╭─" # begin arrow to prompt
+PS1+="${FG_BLUE}" # begin USERNAME container
+PS1+="${FG_CYAN}${BG_BLUE}${FMT_BOLD}" # print OS icon
+PS1+=" \${clock} "
+#PS1+="${FG_CYAN} "
+PS1+="${FMT_BOLD}${BG_BLUE}${FG_WHITE}"
+#PS1+=" \$(openshift_info)  " # Även denna rad är kommenterad för att inte visa OpenShift-info
+#PS1+="${BG_LIGHT_GRAY}${FG_BLACK}${FMT_BOLD} \u@\h " # print username
+PS1+="${BG_LIGHT_GRAY}${FG_BLACK}${FMT_BOLD} \u@MY-PC " # print username
+#PS1+="${FMT_UNBOLD} ${FG_YELLOW}${BG_CYAN} " # end USERNAME container / begin DIRECTORY container
+PS1+="${FG_BLACK}${BG_LIGHT_GRAY}" # end USERNAME container / begin DIRECTORY container
+PS1+="${FG_BLACK}\w " # print directory
+#PS1+="${FG_BLUE}${BG_LIGHT_GRAY} " # end DIRECTORY container / begin FILES container
+#PS1+="${FG_BLACK}"
+PS1+="${FMT_RESET}${FG_LIGHT_GRAY}"
+PS1+="\$(git branch 2> /dev/null | grep '^*' | colrm 1 2 | xargs -I BRANCH echo -n \"" # check if git branch exists
+PS1+="\$(parse_git_bg) " # end FILES container / begin BRANCH container
+PS1+="${FG_BLACK}${FMT_BOLD} BRANCH " # print current git branch
+PS1+="${FMT_RESET}\$(parse_git_fg)\")\n" # end last container (either FILES or BRANCH)
+PS1+="${FG_ICE_BLUE}╰ " # end arrow to prompt
+PS1+="${FG_ICE_BLUE}\\$  " # print prompt
+PS1+="${FMT_RESET}"
+export PS1
+

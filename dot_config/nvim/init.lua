@@ -3,7 +3,7 @@
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git", "clone", "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath,
@@ -81,18 +81,25 @@ require("lazy").setup({
 
   -- LSP
   {
-    "neovim/nvim-lspconfig",
-    dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
+    "williamboman/mason.nvim",
+    opts = {},
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = { "williamboman/mason.nvim" },
+    opts = {
+      ensure_installed = { "lua_ls", "pyright", "ts_ls", "bashls", "yamlls", "dockerls" },
+      automatic_installation = true,
+    },
+  },
+  {
+    "hrsh7th/cmp-nvim-lsp",
     config = function()
-      require("mason").setup()
-      require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "pyright", "ts_ls", "bashls", "yamlls", "dockerls" },
-        automatic_installation = true,
-      })
-      local lspconfig = require("lspconfig")
+      local servers = { "lua_ls", "pyright", "ts_ls", "bashls", "yamlls", "dockerls" }
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
-      for _, server in ipairs({ "lua_ls", "pyright", "ts_ls", "bashls", "yamlls", "dockerls" }) do
-        lspconfig[server].setup({ capabilities = capabilities })
+      for _, server in ipairs(servers) do
+        vim.lsp.config[server] = { capabilities = capabilities }
+        vim.lsp.enable(server)
       end
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
@@ -131,13 +138,9 @@ require("lazy").setup({
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = { "bash", "lua", "python", "javascript", "typescript", "yaml", "json", "dockerfile", "markdown" },
-        highlight = { enable = true },
-        indent = { enable = true },
-      })
-    end,
+    opts = {
+      ensure_installed = { "bash", "lua", "python", "javascript", "typescript", "yaml", "json", "dockerfile", "markdown" },
+    },
   },
 
   -- Git

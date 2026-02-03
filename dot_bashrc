@@ -303,5 +303,5 @@ fi
 # =============================================================================
 # Local Configuration
 # =============================================================================
-
+[ -f "$HOME/my_bash_prompt" ] && source "$HOME/my_bash_prompt"
 [ -f "$HOME/.bashrc.local" ] && source "$HOME/.bashrc.local"
