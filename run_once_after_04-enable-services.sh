@@ -16,8 +16,24 @@ if [ ! -f /etc/fedora-release ] || ! command -v systemctl &>/dev/null; then
     exit 0
 fi
 
-# mbpfan (MacBook fan control) - disabled for testing
-# To enable manually: sudo systemctl enable --now mbpfan
+# mbpfan (MacBook fan control) with custom fan curve
+if rpm -q mbpfan &>/dev/null; then
+    echo "Configuring mbpfan..."
+    sudo tee /etc/mbpfan.conf > /dev/null <<'EOF'
+[general]
+low_temp = 63
+high_temp = 66
+max_temp = 86
+polling_interval = 1
+EOF
+    if ! systemctl is-enabled mbpfan &>/dev/null; then
+        echo "Enabling mbpfan service..."
+        sudo systemctl enable --now mbpfan || true
+    else
+        echo "mbpfan already enabled"
+        sudo systemctl restart mbpfan || true
+    fi
+fi
 
 # Enable TLP (power management)
 if rpm -q tlp &>/dev/null; then
@@ -26,6 +42,17 @@ if rpm -q tlp &>/dev/null; then
         sudo systemctl enable --now tlp || true
     else
         echo "TLP already enabled"
+    fi
+fi
+
+# Enable Tailscale
+if rpm -q tailscale &>/dev/null; then
+    if ! systemctl is-enabled tailscaled &>/dev/null; then
+        echo "Enabling Tailscale service..."
+        sudo systemctl enable --now tailscaled || true
+        echo "NOTE: Run 'sudo tailscale up' to authenticate"
+    else
+        echo "Tailscale already enabled"
     fi
 fi
 
